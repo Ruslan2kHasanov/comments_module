@@ -1,8 +1,8 @@
 export type TComment = {
-  id: number;
-  author_id: number;
+  id: string;
+  author_id: string;
   text: string;
   date_create: Date;
   rating: number;
-  reply_to_id?: number | null;
+  reply_to_id?: string | null;
 };
