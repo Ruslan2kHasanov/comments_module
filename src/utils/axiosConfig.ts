@@ -5,7 +5,7 @@ import MockAdapter from 'axios-mock-adapter';
 import { APP_BACKEND_API, LOCAL_STORAGE_TOKEN } from './consts/appConsts';
 import { usersMock } from '../domain/mock/usersMock';
 
-const axiosConfig = axios.create({
+export const axiosWithAuthorization = axios.create({
   baseURL: APP_BACKEND_API,
   headers: {
     'Content-Type': 'application/json',
@@ -13,13 +13,14 @@ const axiosConfig = axios.create({
   },
 });
 
-axiosConfig.interceptors.request.use(
+axiosWithAuthorization.interceptors.request.use(
   (config) => {
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     if (token) {
       // eslint-disable-next-line no-param-reassign
       config.headers.Authorization = `Bearer ${token}`;
     }
+
     return config;
   },
   (error) => Promise.reject(error),
@@ -33,10 +34,13 @@ export const axiosWithoutAuthorization = axios.create({
   },
 });
 
-const mock = new MockAdapter(axiosConfig, {
+const mockAuth = new MockAdapter(axiosWithAuthorization, {
   delayResponse: 500,
 });
 
-usersMock(mock);
+const mockUnauth = new MockAdapter(axiosWithoutAuthorization, {
+  delayResponse: 500,
+});
 
-export default axiosConfig;
+usersMock(mockAuth);
+usersMock(mockUnauth);
