@@ -1,0 +1,62 @@
+import { createApi } from '@reduxjs/toolkit/query/react';
+import { baseQuery } from '../../utils/baseQuery';
+import { axiosWithoutAuthorization } from '../../utils/axiosConfig';
+import { TComment } from './TComment';
+
+export const commentsApi = createApi({
+  reducerPath: 'commentsApi',
+  baseQuery: baseQuery(),
+  tagTypes: ['comments'],
+  endpoints: (builder) => ({
+    getAllComments: builder.query<TComment[], void>({
+      queryFn: async () => {
+        try {
+          const response = await axiosWithoutAuthorization.get<TComment[]>('/comments');
+          return { data: response.data };
+        } catch (error) {
+          return { error };
+        }
+      },
+      providesTags: ['comments'],
+    }),
+    createComment: builder.mutation<void, Partial<TComment>>({
+      query: (comment) => ({
+        url: '/comments',
+        method: 'POST',
+        body: comment,
+      }),
+      invalidatesTags: ['comments'],
+    }),
+    updateOwnComment: builder.mutation<void, { id: string; text: string }>({
+      query: ({ id, text }) => ({
+        url: `/comments/${id}`,
+        method: 'PATCH',
+        body: { text },
+      }),
+      invalidatesTags: ['comments'],
+    }),
+    deleteComment: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `/comments/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['comments'],
+    }),
+    updateCommentRating: builder.mutation<void, { id: string; increment: boolean }>({
+      query: ({ id, increment }) => ({
+        url: `/comments/${id}/rating`,
+        method: 'PATCH',
+        body: { increment },
+      }),
+      invalidatesTags: ['comments'],
+    }),
+  }),
+});
+
+export const {
+  useGetAllCommentsQuery,
+  useCreateCommentMutation,
+  useUpdateOwnCommentMutation,
+  useDeleteCommentMutation,
+  useUpdateCommentRatingMutation,
+} = commentsApi;
