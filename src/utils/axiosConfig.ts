@@ -4,6 +4,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import { APP_BACKEND_API, LOCAL_STORAGE_TOKEN } from './consts/appConsts';
 import { usersMock } from '../domain/mock/usersMock';
+import { commentsMock } from '../domain/mock/commentsMock';
 
 export const axiosWithAuthorization = axios.create({
   baseURL: APP_BACKEND_API,
@@ -44,3 +45,6 @@ const mockUnauth = new MockAdapter(axiosWithoutAuthorization, {
 
 usersMock(mockAuth);
 usersMock(mockUnauth);
+
+commentsMock(mockAuth);
+commentsMock(mockUnauth);
