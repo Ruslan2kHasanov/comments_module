@@ -1,23 +1,27 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQuery } from '../../utils/baseQuery';
 import { axiosWithoutAuthorization } from '../../utils/axiosConfig';
-import { TComment } from './TComment';
+import { TComment, TCommentRaw } from './TComment';
 
 export const commentsApi = createApi({
   reducerPath: 'commentsApi',
   baseQuery: baseQuery(),
   tagTypes: ['comments'],
   endpoints: (builder) => ({
-    getAllComments: builder.query<TComment[], void>({
+    getAllComments: builder.query<TCommentRaw[], void>({
       queryFn: async () => {
         try {
-          const response = await axiosWithoutAuthorization.get<TComment[]>('/comments');
-          return { data: response.data };
+          const response = await axiosWithoutAuthorization.get<TCommentRaw[]>('/comments');
+          const transformedData = response.data.map((el) => ({
+            ...el,
+            date_create: new Date(el.date_create),
+          }));
+          return { data: transformedData };
         } catch (error) {
           return { error };
         }
       },
-      providesTags: ['comments'],
+      providesTags: ['comments'], // Убедитесь, что тип тега совпадает с tagTypes, определёнными в createApi
     }),
     createComment: builder.mutation<void, Partial<TComment>>({
       query: (comment) => ({

@@ -5,3 +5,7 @@ export type TComment = {
   date_create: Date;
   rating: number;
 };
+
+export type TCommentRaw = Omit<TComment, 'date_create'> & {
+  date_create: Date;
+};
