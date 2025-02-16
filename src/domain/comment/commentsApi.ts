@@ -70,4 +70,5 @@ export const {
   useUpdateOwnCommentMutation,
   useDeleteCommentMutation,
   useUpdateCommentRatingMutation,
+  useGetChangedCommentsQuery,
 } = commentsApi;

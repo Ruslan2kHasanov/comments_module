@@ -9,9 +9,7 @@ export const store = configureStore({
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      serializableCheck: {
-        ignoredPaths: ['commentsApi.queries.getAllComments'],
-      },
+      serializableCheck: false,
     }).concat(userApi.middleware, commentsApi.middleware),
 });
 
