@@ -35,7 +35,7 @@ const allComments: (Omit<TComment, 'date_create'> & {
   },
   {
     id: '5',
-    author_id: '1',
+    author_id: '10',
     text: 'Интересная статья, но есть пара ошибок в тексте.',
     date_create: '2025-02-03T08:30:00+03:00',
     rating: -9,

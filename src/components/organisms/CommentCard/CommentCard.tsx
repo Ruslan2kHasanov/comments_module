@@ -1,6 +1,6 @@
 import React from 'react';
 import './index.scss';
-import logo from 'assets/logo.svg';
+import UserAvatar from 'components/molecules/UserAvatar/UserAvatar';
 import { TComment } from '../../../domain/comment/TComment';
 import { TUser } from '../../../domain/user/TUser';
 import { getFormattedDate } from '../../../utils/getFormattedDate';
@@ -15,7 +15,7 @@ interface CommentCardProps {
 const CommentCard: React.FC<CommentCardProps> = ({ data, author, actions }) => (
   <div className="comment_card">
     <div className="comment_card__heading">
-      <img src={author.avatar ?? logo} alt={author.name} loading="lazy" className="comment_card__avatar" />
+      <UserAvatar avatarPath={author.avatar} title={author.name} />
       <span className="comment_card__name">{author.name}</span>
       <span className="comment_card__date">{getFormattedDate(data.date_create)}</span>
     </div>
