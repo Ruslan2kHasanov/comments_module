@@ -1,12 +1,12 @@
 import { createApi } from '@reduxjs/toolkit/query/react';
 import { baseQuery } from '../../utils/baseQuery';
 import { axiosWithoutAuthorization } from '../../utils/axiosConfig';
-import { TComment, TCommentRaw } from './TComment';
+import { TComment, TCommentRaw, TCommentsUserChanged } from './TComment';
 
 export const commentsApi = createApi({
   reducerPath: 'commentsApi',
   baseQuery: baseQuery(),
-  tagTypes: ['comments'],
+  tagTypes: ['comments', 'comments_changed'],
   endpoints: (builder) => ({
     getAllComments: builder.query<TCommentRaw[], void>({
       queryFn: async () => {
@@ -21,7 +21,14 @@ export const commentsApi = createApi({
           return { error };
         }
       },
-      providesTags: ['comments'], // Убедитесь, что тип тега совпадает с tagTypes, определёнными в createApi
+      providesTags: ['comments'],
+    }),
+    getChangedComments: builder.query<TCommentsUserChanged[], void>({
+      query: () => ({
+        url: '/comments/changed',
+        method: 'GET',
+      }),
+      providesTags: ['comments_changed'],
     }),
     createComment: builder.mutation<void, Partial<TComment>>({
       query: (comment) => ({
@@ -52,7 +59,7 @@ export const commentsApi = createApi({
         method: 'PATCH',
         body: { increment },
       }),
-      invalidatesTags: ['comments'],
+      invalidatesTags: ['comments', 'comments_changed'],
     }),
   }),
 });

@@ -1,6 +1,6 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import MockAdapter from 'axios-mock-adapter';
-import { TComment } from '../comment/TComment';
+import { TComment, TCommentsUserChanged } from '../comment/TComment';
 
 const allComments: (Omit<TComment, 'date_create'> & {
   date_create: string;
@@ -42,8 +42,20 @@ const allComments: (Omit<TComment, 'date_create'> & {
   },
 ];
 
+const commentsThatUserChanged: TCommentsUserChanged[] = [
+  {
+    id_comment: '1',
+    rating_val: 1,
+  },
+  {
+    id_comment: '5',
+    rating_val: -1,
+  },
+];
+
 export const commentsMock = (mock: MockAdapter) => {
   mock.onGet('/comments').reply(200, allComments);
+  mock.onGet('/comments/changed').reply(200, commentsThatUserChanged);
 
   return mock;
 };

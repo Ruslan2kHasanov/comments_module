@@ -9,3 +9,8 @@ export type TComment = {
 export type TCommentRaw = Omit<TComment, 'date_create'> & {
   date_create: Date;
 };
+
+export type TCommentsUserChanged = {
+  id_comment: string;
+  rating_val: -1 | 1;
+};
