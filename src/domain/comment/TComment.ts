@@ -4,5 +4,4 @@ export type TComment = {
   text: string;
   date_create: Date;
   rating: number;
-  reply_to_id?: string | null;
 };

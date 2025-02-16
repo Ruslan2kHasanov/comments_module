@@ -18,7 +18,6 @@ const allComments: (Omit<TComment, 'date_create'> & {
     text: 'Согласен, очень полезно. Спасибо автору!',
     date_create: '2024-01-26T10:15:00Z',
     rating: 4,
-    reply_to_id: '1',
   },
   {
     id: '3',
@@ -26,7 +25,6 @@ const allComments: (Omit<TComment, 'date_create'> & {
     text: 'Мне кажется, тема раскрыта не полностью. Можно было бы подробнее.',
     date_create: '2024-01-26T10:30:00Z',
     rating: -11,
-    reply_to_id: '1',
   },
   {
     id: '4',
