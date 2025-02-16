@@ -7,7 +7,12 @@ export const store = configureStore({
     [userApi.reducerPath]: userApi.reducer,
     [commentsApi.reducerPath]: commentsApi.reducer,
   },
-  middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(userApi.middleware, commentsApi.middleware),
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredPaths: ['commentsApi.queries.getAllComments'],
+      },
+    }).concat(userApi.middleware, commentsApi.middleware),
 });
 
 export type RootState = ReturnType<typeof store.getState>;
