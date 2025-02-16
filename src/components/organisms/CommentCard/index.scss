@@ -1,0 +1,14 @@
+.comment_card{
+
+  &__heading{
+    display: flex;
+    gap: 10px;
+  }
+
+  &__avatar{
+    width: 30px;
+    height: 30px;
+    border-radius: 100%;
+    object-fit: cover;
+  }
+}

@@ -1,0 +1,17 @@
+.comment_list{
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow: hidden;
+
+  &__title{
+    margin: 0;
+  }
+
+  &__items{
+    display: flex;
+    flex-direction: column;
+    overflow: auto;
+    gap: 10px;
+  }
+}
