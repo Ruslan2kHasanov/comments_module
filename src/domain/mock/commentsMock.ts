@@ -44,7 +44,7 @@ const allComments: (Omit<TComment, 'date_create'> & {
 
 const commentsThatUserChanged: TCommentsUserChanged[] = [
   {
-    id_comment: '1',
+    id_comment: '2',
     rating_val: 1,
   },
   {

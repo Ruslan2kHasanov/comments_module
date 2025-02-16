@@ -1,10 +1,12 @@
 import { Button } from 'antd';
 import React, { useMemo } from 'react';
+import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CommentCard from 'components/organisms/CommentCard/CommentCard';
-import { TComment, TCommentsUserChanged } from '../../../domain/comment/TComment';
 import './index.scss';
+import CommentRatingActions from 'components/organisms/CommentRatingActions/CommentRatingActions';
 import { TUser } from '../../../domain/user/TUser';
 import { useGetMeQuery } from '../../../domain/user/userApi';
+import { TComment, TCommentsUserChanged } from '../../../domain/comment/TComment';
 
 interface CommentsListProps {
   comments: TComment[];
@@ -25,15 +27,14 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments, users, changedCom
             key={el?.id}
             author={users?.find((user) => user.id === el.author_id)}
             actions={
-              <>
-                <Button disabled={!me?.id || foundedChangedComment?.rating_val === 1} title="Поднять рейтинг">
-                  UP
-                </Button>
-                <span className={`comment_card__rating${el.rating < 0 ? '--bad' : '--good'}`}>{el.rating}</span>
-                <Button disabled={!me?.id || foundedChangedComment?.rating_val === -1} title="Опустить рейтинг">
-                  DOWN
-                </Button>
-              </>
+              el.author_id !== me?.id ? (
+                <CommentRatingActions comment={el} changedRatingByUser={foundedChangedComment?.rating_val} />
+              ) : (
+                <>
+                  <Button title="Редактировать" icon={<EditOutlined />} type="link" />
+                  <Button title="Удалить" icon={<DeleteOutlined />} type="link" danger />
+                </>
+              )
             }
           />
         );
