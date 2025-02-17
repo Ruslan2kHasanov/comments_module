@@ -1,0 +1,11 @@
+.create_comment_wrapper{
+  width: clamp(300px, 50%, 800px);
+  padding: 15px 0;
+
+  &__btns{
+    width: 100%;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+}
