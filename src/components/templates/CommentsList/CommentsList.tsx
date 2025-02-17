@@ -4,9 +4,9 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CommentCard from 'components/organisms/CommentCard/CommentCard';
 import './index.scss';
 import CommentRatingActions from 'components/organisms/CommentRatingActions/CommentRatingActions';
+import { TComment, TCommentsUserChanged } from '../../../domain/comment/TComment';
 import { TUser } from '../../../domain/user/TUser';
 import { useGetMeQuery } from '../../../domain/user/userApi';
-import { TComment, TCommentsUserChanged } from '../../../domain/comment/TComment';
 
 interface CommentsListProps {
   comments: TComment[];

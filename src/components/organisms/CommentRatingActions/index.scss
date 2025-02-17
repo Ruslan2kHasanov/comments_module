@@ -1,0 +1,17 @@
+.comment_rating {
+  display: flex;
+  gap: 5px;
+  align-items: center;
+
+  &__val {
+    font-size: 0.9rem;
+
+    &--bad{
+      color: #ff5050;
+    }
+
+    &--good{
+      color: #36a236;
+    }
+  }
+}
