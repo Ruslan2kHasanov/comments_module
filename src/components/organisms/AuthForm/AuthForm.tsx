@@ -37,7 +37,7 @@ const AuthForm = () => {
   return (
     <div className="auth_form_wrapper">
       <Form>
-        <Form.Item help={formik.touched && formik.errors.email}>
+        <Form.Item help={formik.touched.email && formik.errors.email}>
           <Input
             name="email"
             value={formik.values.email}
@@ -48,7 +48,7 @@ const AuthForm = () => {
             onPressEnter={onSubmitForm}
           />
         </Form.Item>
-        <Form.Item help={formik.touched && formik.errors.password}>
+        <Form.Item help={formik.touched.password && formik.errors.password}>
           <Input.Password
             name="password"
             value={formik.values.password}
