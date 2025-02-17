@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, Form, Input, notification } from 'antd';
 import { useFormik } from 'formik';
-import { createCommentSchema } from 'components/organisms/CreateCommentForm/createCommentSchema';
+import { authSchema } from 'components/organisms/AuthForm/authSchema';
 import { useAuthMutation } from '../../../domain/user/userApi';
 import './index.scss';
 
@@ -19,7 +19,7 @@ const AuthForm = () => {
       email: '',
       password: '',
     },
-    validationSchema: createCommentSchema,
+    validationSchema: authSchema,
     onSubmit: async (values, formikHelpers) => {
       try {
         await auth(values).unwrap();
