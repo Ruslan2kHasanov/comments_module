@@ -1,8 +1,21 @@
 .comment_card{
+  padding: 10px;
+  border-bottom: 1px solid gray;
+  cursor: default;
 
   &__heading{
     display: flex;
+    align-items: center;
     gap: 10px;
+  }
+
+  &__date{
+    font-size: 0.8rem;
+    color: #b0b0b0;
+  }
+
+  &__body{
+    padding: 10px 0 5px 0;
   }
 
   &__avatar{
@@ -10,5 +23,9 @@
     height: 30px;
     border-radius: 100%;
     object-fit: cover;
+  }
+
+  &:last-child{
+    border-bottom: none;
   }
 }
