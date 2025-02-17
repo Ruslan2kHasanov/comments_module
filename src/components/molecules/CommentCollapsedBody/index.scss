@@ -1,0 +1,11 @@
+.collapsed_body {
+  &__text {
+    transition: height 0.3s ease;
+    overflow: hidden;
+    height: 20px;
+  }
+
+  &__bnt {
+    padding: 0;
+  }
+}

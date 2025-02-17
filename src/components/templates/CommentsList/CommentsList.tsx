@@ -4,9 +4,11 @@ import { DeleteOutlined, EditOutlined } from '@ant-design/icons';
 import CommentCard from 'components/organisms/CommentCard/CommentCard';
 import './index.scss';
 import CommentRatingActions from 'components/organisms/CommentRatingActions/CommentRatingActions';
+import { CommentCollapsedBody } from 'components/molecules/CommentCollapsedBody/CommentCollapsedBody';
 import { TComment, TCommentsUserChanged } from '../../../domain/comment/TComment';
 import { TUser } from '../../../domain/user/TUser';
 import { useGetMeQuery } from '../../../domain/user/userApi';
+import { MIN_RATING_WHEN_COLLAPSED } from '../../../utils/consts/appConsts';
 
 interface CommentsListProps {
   comments: TComment[];
@@ -26,6 +28,7 @@ const CommentsList: React.FC<CommentsListProps> = ({ comments, users, changedCom
             data={el}
             key={el?.id}
             author={users?.find((user) => user.id === el.author_id)}
+            body={el.rating <= MIN_RATING_WHEN_COLLAPSED ? <CommentCollapsedBody text={el.text} /> : el.text}
             actions={
               el.author_id !== me?.id ? (
                 <CommentRatingActions comment={el} changedRatingByUser={foundedChangedComment?.rating_val} />
