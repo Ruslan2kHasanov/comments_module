@@ -49,7 +49,7 @@ const AuthForm = () => {
           />
         </Form.Item>
         <Form.Item help={formik.touched && formik.errors.password}>
-          <Input
+          <Input.Password
             name="password"
             value={formik.values.password}
             onChange={formik.handleChange}
