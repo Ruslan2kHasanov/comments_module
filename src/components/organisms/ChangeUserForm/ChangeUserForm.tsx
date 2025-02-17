@@ -1,28 +1,29 @@
 import React from 'react';
 import { Button, Form, Input, notification } from 'antd';
 import { useFormik } from 'formik';
-import { authSchema } from 'components/organisms/AuthForm/authSchema';
-import { useAuthMutation } from '../../../domain/user/userApi';
-import './index.scss';
+import { changeUserSchema } from 'components/organisms/ChangeUserForm/changeUserSchema';
+import { useGetMeQuery, useUpdateUserMutation } from '../../../domain/user/userApi';
 
-const AuthForm = () => {
+const ChangeUserForm = () => {
   const [api, contextHolder] = notification.useNotification();
-  const [auth, createCommentStatus] = useAuthMutation();
+  const { data: me } = useGetMeQuery();
+  const [updateUser, updateUserStatus] = useUpdateUserMutation();
   const openNotification = () => {
     api.error({
-      message: 'Неверный логин или пароль',
+      message: 'Не удалось обновить данные',
     });
   };
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: '',
+      name: me?.name,
+      email: me?.email,
+      id: me?.id,
     },
-    validationSchema: authSchema,
+    validationSchema: changeUserSchema,
     onSubmit: async (values, formikHelpers) => {
       try {
-        await auth(values).unwrap();
+        await updateUser(values).unwrap();
       } catch (e) {
         console.error(e);
         openNotification();
@@ -30,35 +31,36 @@ const AuthForm = () => {
         formikHelpers.resetForm();
       }
     },
+    enableReinitialize: true,
   });
 
   const onSubmitForm = () => formik.handleSubmit();
 
   return (
-    <div className="auth_form_wrapper">
+    <div className="profile_form">
       <Form>
-        <Form.Item help={formik.touched.email && formik.errors.email}>
+        <Form.Item>
           <Input
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             variant="underlined"
-            placeholder="Введите e-mail"
+            disabled
           />
         </Form.Item>
-        <Form.Item help={formik.touched.password && formik.errors.password}>
-          <Input.Password
-            name="password"
-            value={formik.values.password}
+        <Form.Item help={formik.touched.name && formik.errors.name}>
+          <Input
+            name="name"
+            value={formik.values.name}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             variant="underlined"
-            placeholder="Введите пароль"
+            placeholder="Введите имя"
           />
         </Form.Item>
-        <Button disabled={!formik.dirty || createCommentStatus.isLoading} type="primary" onClick={onSubmitForm}>
-          Войти
+        <Button disabled={!formik.dirty || updateUserStatus.isLoading} type="primary" onClick={onSubmitForm}>
+          Изменить
         </Button>
       </Form>
       {contextHolder}
@@ -66,4 +68,4 @@ const AuthForm = () => {
   );
 };
 
-export default AuthForm;
+export default ChangeUserForm;

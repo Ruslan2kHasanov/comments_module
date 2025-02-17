@@ -91,5 +91,11 @@ export const userApi = createApi({
   }),
 });
 
-export const { useGetAllUsersQuery, useGetMeQuery, useCreateUserMutation, useUploadAvatarMutation, useAuthMutation } =
-  userApi;
+export const {
+  useGetAllUsersQuery,
+  useGetMeQuery,
+  useCreateUserMutation,
+  useUploadAvatarMutation,
+  useAuthMutation,
+  useUpdateUserMutation,
+} = userApi;
