@@ -76,7 +76,7 @@ const commentsThatUserChanged: TCommentsUserChanged[] = [
 
 export const commentsMock = (mock: MockAdapter) => {
   mock.onGet('/comments').reply(200, allComments);
-  mock.onPost('/comments').reply(200, null);
+  mock.onPost('/comments').reply(400, null);
   mock.onGet('/comments/changed').reply(200, commentsThatUserChanged);
 
   return mock;

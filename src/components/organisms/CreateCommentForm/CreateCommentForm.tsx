@@ -1,5 +1,6 @@
 import React from 'react';
-import { Button, Form, Input } from 'antd';
+import { AxiosError } from 'axios';
+import { Button, Form, Input, notification } from 'antd';
 import { useFormik } from 'formik';
 import { createCommentSchema } from 'components/organisms/CreateCommentForm/createCommentSchema';
 import UserAvatar from 'components/molecules/UserAvatar/UserAvatar';
@@ -9,7 +10,14 @@ import { useCreateCommentMutation } from '../../../domain/comment/commentsApi';
 
 const CreateCommentForm: React.FC = () => {
   const { data: me } = useGetMeQuery();
+  const [api, contextHolder] = notification.useNotification();
   const [createComment, createCommentStatus] = useCreateCommentMutation();
+  const openNotification = (e: AxiosError) => {
+    api.error({
+      message: 'Ошибка создания комментария',
+      description: e.message,
+    });
+  };
 
   const formik = useFormik({
     initialValues: {
@@ -18,10 +26,12 @@ const CreateCommentForm: React.FC = () => {
     validationSchema: createCommentSchema,
     onSubmit: async (values, formikHelpers) => {
       try {
-        await createComment(values);
-        formikHelpers.resetForm();
+        await createComment(values).unwrap();
       } catch (e) {
         console.error(e);
+        openNotification(e);
+      } finally {
+        formikHelpers.resetForm();
       }
     },
   });
@@ -55,6 +65,7 @@ const CreateCommentForm: React.FC = () => {
           </Button>
         </div>
       </Form>
+      {contextHolder}
     </div>
   );
 };
