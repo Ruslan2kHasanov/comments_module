@@ -3,6 +3,7 @@ import type { GetProp, UploadProps } from 'antd';
 import { Flex, Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useGetMeQuery } from '../../../domain/user/userApi';
+import { APP_BACKEND_API } from '../../../utils/consts/appConsts';
 
 type FileType = Parameters<GetProp<UploadProps, 'beforeUpload'>>[0];
 const getBase64 = (img: FileType, callback: (url: string) => void) => {
@@ -49,7 +50,7 @@ const UploadUserAvatarForm: React.FC = () => {
         name="file"
         listType="picture-card"
         showUploadList={false}
-        action="https://660d2bd96ddfa2943b33731c.mockapi.io/api/upload"
+        action={`${APP_BACKEND_API}/user/avatar`}
         onChange={handleChange}
       >
         {imageUrl ? (
