@@ -2,6 +2,7 @@ import { createApi } from '@reduxjs/toolkit/query/react';
 import { TUser } from './TUser';
 import { axiosWithoutAuthorization } from '../../utils/axiosConfig';
 import { baseQuery } from '../../utils/baseQuery';
+import { LOCAL_STORAGE_TOKEN } from '../../utils/consts/appConsts';
 
 export const userApi = createApi({
   reducerPath: 'userApi',
@@ -14,6 +15,22 @@ export const userApi = createApi({
           return { data: response.data };
         } catch (error) {
           return { error };
+        }
+      },
+    }),
+    auth: builder.mutation<{ access: string }, { email: string; password: string }>({
+      queryFn: async (credentials) => {
+        try {
+          const response = await axiosWithoutAuthorization.post<{ access: string }>('/auth', credentials);
+          localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data.access);
+          return { data: response.data };
+        } catch (error: any) {
+          return {
+            error: {
+              status: error.response?.status,
+              error: error.response?.data || error.message,
+            },
+          };
         }
       },
     }),
@@ -74,4 +91,5 @@ export const userApi = createApi({
   }),
 });
 
-export const { useGetAllUsersQuery, useGetMeQuery, useCreateUserMutation, useUploadAvatarMutation } = userApi;
+export const { useGetAllUsersQuery, useGetMeQuery, useCreateUserMutation, useUploadAvatarMutation, useAuthMutation } =
+  userApi;
