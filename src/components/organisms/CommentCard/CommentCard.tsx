@@ -7,7 +7,7 @@ import { getFormattedDate } from '../../../utils/getFormattedDate';
 
 interface CommentCardProps {
   data: TComment;
-  author?: TUser;
+  author?: TUser | null;
   actions?: React.ReactNode;
   body: React.ReactNode;
 }
@@ -15,8 +15,8 @@ interface CommentCardProps {
 const CommentCard: React.FC<CommentCardProps> = ({ data, author, actions, body }) => (
   <div className="comment_card">
     <div className="comment_card__heading">
-      <UserAvatar avatarPath={author.avatar} title={author.name} />
-      <span className="comment_card__name">{author.name}</span>
+      {author && <UserAvatar avatarPath={author.avatar} title={author.name} />}
+      <span className="comment_card__name">{author?.name}</span>
       <span className="comment_card__date">{getFormattedDate(data.date_create)}</span>
     </div>
     <div className="comment_card__body">{body}</div>

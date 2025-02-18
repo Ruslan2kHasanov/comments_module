@@ -11,19 +11,17 @@ export const baseQuery =
       method?: AxiosRequestConfig['method'];
       data?: AxiosRequestConfig['data'];
       params?: AxiosRequestConfig['params'];
-      headers?: AxiosRequestConfig['headers'];
     },
     unknown,
     unknown
   > =>
-  async ({ url, method, data, params, headers }) => {
+  async ({ url, method, data, params }) => {
     try {
       const result = await axiosConf({
         url,
         method,
         data,
         params,
-        headers,
       });
       return { data: result.data };
     } catch (axiosError) {

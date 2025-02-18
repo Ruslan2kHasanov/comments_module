@@ -11,7 +11,7 @@ export const commentsApi = createApi({
     getAllComments: builder.query<TCommentRaw[], void>({
       queryFn: async () => {
         try {
-          const response = await axiosWithoutAuthorization.get<TCommentRaw[]>('/comments');
+          const response = await axiosWithoutAuthorization.get<TCommentRaw[]>('/comments/');
           const transformedData = response.data.map((el) => ({
             ...el,
             date_create: new Date(el.date_create),
@@ -25,39 +25,42 @@ export const commentsApi = createApi({
     }),
     getChangedComments: builder.query<TCommentsUserChanged[], void>({
       query: () => ({
-        url: '/comments/changed',
+        url: '/user/votes/',
         method: 'GET',
       }),
       providesTags: ['comments_changed'],
     }),
     createComment: builder.mutation<void, Partial<TComment>>({
-      query: (comment) => ({
-        url: '/comments',
-        method: 'POST',
-        body: comment,
-      }),
+      query: (comment) => {
+        console.log(comment);
+        return {
+          url: '/comments/',
+          method: 'POST',
+          data: comment,
+        };
+      },
       invalidatesTags: ['comments'],
     }),
     updateOwnComment: builder.mutation<void, { id: string; text: string }>({
       query: ({ id, text }) => ({
-        url: `/comments/${id}`,
+        url: `/comments/${id}/`,
         method: 'PATCH',
-        body: { text },
+        data: { text },
       }),
       invalidatesTags: ['comments'],
     }),
     deleteComment: builder.mutation<void, { id: string }>({
       query: ({ id }) => ({
-        url: `/comments/${id}`,
+        url: `/comments/${id}/`,
         method: 'DELETE',
       }),
       invalidatesTags: ['comments'],
     }),
     updateCommentRating: builder.mutation<void, { id: string; increment: boolean }>({
       query: ({ id, increment }) => ({
-        url: `/comments/${id}/rating`,
-        method: 'PATCH',
-        body: { increment },
+        url: `/comments/${id}/vote/`,
+        method: 'POST',
+        data: { increment },
       }),
       invalidatesTags: ['comments', 'comments_changed'],
     }),

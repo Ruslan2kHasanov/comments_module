@@ -54,7 +54,7 @@ export const userApi = createApi({
       query: (formData) => ({
         url: '/users/upload-avatar',
         method: 'POST',
-        body: formData,
+        data: formData,
         headers: {
           'Content-Type': undefined,
         },
@@ -76,7 +76,7 @@ export const userApi = createApi({
       query: ({ id, name }) => ({
         url: `/users/${id}/`,
         method: 'PATCH',
-        body: { name },
+        data: { name },
       }),
       async onQueryStarted(userDataToUpdate, { dispatch, queryFulfilled }) {
         const patchResult = dispatch(
