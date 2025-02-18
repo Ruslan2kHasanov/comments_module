@@ -45,6 +45,7 @@ const AuthForm = () => {
         <Form.Item help={formik.touched.email && formik.errors.email}>
           <Input
             name="email"
+            autoFocus
             value={formik.values.email}
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}

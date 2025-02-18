@@ -45,6 +45,7 @@ const RegForm = () => {
       <Form>
         <Form.Item help={formik.touched.email && formik.errors.email}>
           <Input
+            autoFocus
             name="email"
             value={formik.values.email}
             onChange={formik.handleChange}
