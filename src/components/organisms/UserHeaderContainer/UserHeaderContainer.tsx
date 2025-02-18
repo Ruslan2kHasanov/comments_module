@@ -3,17 +3,20 @@ import { Dropdown, MenuProps } from 'antd';
 import UserAvatar from 'components/molecules/UserAvatar/UserAvatar';
 import { Link, useNavigate } from 'react-router-dom';
 import { LoginOutlined, ProfileOutlined } from '@ant-design/icons';
-import { useGetMeQuery } from '../../../domain/user/userApi';
+import { useDispatch } from 'react-redux';
+import { useGetMeQuery, userApi } from '../../../domain/user/userApi';
 import { APP_ROUTES } from '../../../utils/consts/appRoutes';
 import { LOCAL_STORAGE_TOKEN } from '../../../utils/consts/appConsts';
 
 const UserHeaderContainer = () => {
   const { data: me } = useGetMeQuery();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const logout = () => {
     localStorage.setItem(LOCAL_STORAGE_TOKEN, '');
     navigate(APP_ROUTES.AUTH);
+    dispatch(userApi.util.resetApiState());
   };
 
   const userActionItems: MenuProps['items'] = [
