@@ -4,12 +4,17 @@ import CreateCommentForm from 'components/organisms/CreateCommentForm/CreateComm
 import { useGetAllUsersQuery, useGetMeQuery } from '../../../domain/user/userApi';
 import { useGetAllCommentsQuery, useGetChangedCommentsQuery } from '../../../domain/comment/commentsApi';
 import './index.scss';
+import { REFETCH_COMMENTS_INTERVAL } from '../../../utils/consts/appConsts';
 
 const MainPage = () => {
   const { data: users } = useGetAllUsersQuery();
-  const { data: allComments } = useGetAllCommentsQuery();
+  const { data: allComments } = useGetAllCommentsQuery(undefined, {
+    pollingInterval: REFETCH_COMMENTS_INTERVAL,
+  });
   const { data: me } = useGetMeQuery();
-  const { data: changedComments } = useGetChangedCommentsQuery();
+  const { data: changedComments } = useGetChangedCommentsQuery(undefined, {
+    skip: !me?.id,
+  });
 
   return (
     <div className="page_wrapper">

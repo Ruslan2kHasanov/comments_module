@@ -6,3 +6,5 @@ export const APP_BACKEND_API = process.env.REACT_APP_BACKEND_API;
 
 export const MIN_RATING_WHEN_COLLAPSED = -10;
 export const MAX_COMMENT_LEN = 200;
+
+export const REFETCH_COMMENTS_INTERVAL = 10000;
