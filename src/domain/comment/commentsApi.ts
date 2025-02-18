@@ -12,10 +12,12 @@ export const commentsApi = createApi({
       queryFn: async () => {
         try {
           const response = await axiosWithoutAuthorization.get<TCommentRaw[]>('/comments/');
-          const transformedData = response.data.map((el) => ({
-            ...el,
-            date_create: new Date(el.date_create),
-          }));
+          const transformedData = response.data
+            .map((el) => ({
+              ...el,
+              date_create: new Date(el.date_create),
+            }))
+            .reverse();
           return { data: transformedData };
         } catch (error) {
           return { error };
