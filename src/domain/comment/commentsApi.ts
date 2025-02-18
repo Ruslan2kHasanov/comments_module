@@ -31,14 +31,11 @@ export const commentsApi = createApi({
       providesTags: ['comments_changed'],
     }),
     createComment: builder.mutation<void, Partial<TComment>>({
-      query: (comment) => {
-        console.log(comment);
-        return {
-          url: '/comments/',
-          method: 'POST',
-          data: comment,
-        };
-      },
+      query: (comment) => ({
+        url: '/comments/',
+        method: 'POST',
+        data: comment,
+      }),
       invalidatesTags: ['comments'],
     }),
     updateOwnComment: builder.mutation<void, { id: string; text: string }>({

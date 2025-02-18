@@ -25,7 +25,6 @@ const CreateCommentForm: React.FC = () => {
     },
     validationSchema: createCommentSchema,
     onSubmit: async (values, formikHelpers) => {
-      console.log(values);
       try {
         await createComment(values).unwrap();
       } catch (e) {
