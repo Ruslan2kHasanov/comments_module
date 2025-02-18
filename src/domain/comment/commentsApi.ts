@@ -56,11 +56,11 @@ export const commentsApi = createApi({
       }),
       invalidatesTags: ['comments'],
     }),
-    updateCommentRating: builder.mutation<void, { id: string; increment: boolean }>({
-      query: ({ id, increment }) => ({
+    updateCommentRating: builder.mutation<void, { id: string; vote: number }>({
+      query: ({ id, vote }) => ({
         url: `/comments/${id}/vote/`,
         method: 'POST',
-        data: { increment },
+        data: { vote },
       }),
       invalidatesTags: ['comments', 'comments_changed'],
     }),
