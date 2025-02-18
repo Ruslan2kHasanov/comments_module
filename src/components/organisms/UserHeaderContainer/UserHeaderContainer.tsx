@@ -2,7 +2,7 @@ import React from 'react';
 import { Dropdown, MenuProps } from 'antd';
 import UserAvatar from 'components/molecules/UserAvatar/UserAvatar';
 import { Link, useNavigate } from 'react-router-dom';
-import { LoginOutlined, ProfileOutlined } from '@ant-design/icons';
+import { HomeOutlined, LoginOutlined, ProfileOutlined } from '@ant-design/icons';
 import { useDispatch } from 'react-redux';
 import { useGetMeQuery, userApi } from '../../../domain/user/userApi';
 import { APP_ROUTES } from '../../../utils/consts/appRoutes';
@@ -20,6 +20,11 @@ const UserHeaderContainer = () => {
   };
 
   const userActionItems: MenuProps['items'] = [
+    {
+      key: '0',
+      label: <Link to={APP_ROUTES.MAIN}>Главная</Link>,
+      icon: <HomeOutlined />,
+    },
     {
       key: '1',
       label: <Link to={APP_ROUTES.PROFILE}>Профиль</Link>,
