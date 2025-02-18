@@ -11,18 +11,21 @@ export const userApi = createApi({
     getAllUsers: builder.query<TUser[], void>({
       queryFn: async () => {
         try {
-          const response = await axiosWithoutAuthorization.get<TUser[]>('/users');
+          const response = await axiosWithoutAuthorization.get<TUser[]>('/users/');
           return { data: response.data };
         } catch (error) {
           return { error };
         }
       },
     }),
-    auth: builder.mutation<{ access: string }, { email: string; password: string }>({
+    auth: builder.mutation<{ auth_token: string }, { email: string; password: string }>({
       queryFn: async (credentials) => {
         try {
-          const response = await axiosWithoutAuthorization.post<{ access: string }>('/auth', credentials);
-          localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data.access);
+          const response = await axiosWithoutAuthorization.post<{ auth_token: string }>(
+            '/auth/token/login/',
+            credentials,
+          );
+          localStorage.setItem(LOCAL_STORAGE_TOKEN, response.data.auth_token);
           return { data: response.data };
         } catch (error: any) {
           return {
@@ -35,12 +38,12 @@ export const userApi = createApi({
       },
     }),
     getMe: builder.query<TUser, void>({
-      query: () => ({ url: '/users/me' }),
+      query: () => ({ url: '/auth/users/me/' }),
     }),
     createUser: builder.mutation<TUser, Partial<TUser>>({
       queryFn: async (user: Partial<TUser>) => {
         try {
-          const response = await axiosWithoutAuthorization.post<TUser>('/users', user);
+          const response = await axiosWithoutAuthorization.post<TUser>('/auth/users/', user);
           return { data: response.data };
         } catch (error: any) {
           return { error: { status: error.response?.status, data: error.response?.data } };
@@ -71,7 +74,7 @@ export const userApi = createApi({
     }),
     updateUser: builder.mutation<TUser, { id: string; name: string }>({
       query: ({ id, name }) => ({
-        url: `/users/${id}`,
+        url: `/users/${id}/`,
         method: 'PATCH',
         body: { name },
       }),

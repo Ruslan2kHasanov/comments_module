@@ -16,7 +16,7 @@ axiosWithAuthorization.interceptors.request.use(
     const token = localStorage.getItem(LOCAL_STORAGE_TOKEN);
     if (token) {
       // eslint-disable-next-line no-param-reassign
-      config.headers.Authorization = `Bearer ${token}`;
+      config.headers.Authorization = `Token ${token}`;
     }
 
     return config;

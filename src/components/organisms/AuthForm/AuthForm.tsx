@@ -1,13 +1,17 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button, Form, Input, notification } from 'antd';
 import { useFormik } from 'formik';
 import { authSchema } from 'components/organisms/AuthForm/authSchema';
 import { useAuthMutation } from '../../../domain/user/userApi';
 import './index.scss';
+import { APP_ROUTES } from '../../../utils/consts/appRoutes';
 
 const AuthForm = () => {
   const [api, contextHolder] = notification.useNotification();
   const [auth, createCommentStatus] = useAuthMutation();
+  const navigate = useNavigate();
+
   const openNotification = () => {
     api.error({
       message: 'Неверный логин или пароль',
@@ -23,6 +27,7 @@ const AuthForm = () => {
     onSubmit: async (values, formikHelpers) => {
       try {
         await auth(values).unwrap();
+        navigate(APP_ROUTES.MAIN);
       } catch (e) {
         console.error(e);
         openNotification();
