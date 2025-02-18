@@ -15,7 +15,7 @@ const UserAvatar: React.FC<UserAvatarProps> = ({ avatarPath, title, avatarSize }
     <img src={avatarPath} alt={title} loading="lazy" className="user_avatar_img" style={sizeObject} />
   ) : (
     <div className="user_avatar_plug" style={{ background: getColorByFirstLetter(title.at(0)), ...sizeObject }}>
-      <span>{title.at(0)}</span>
+      <span>{title?.at(0)?.toUpperCase()}</span>
     </div>
   );
 };
