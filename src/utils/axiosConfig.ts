@@ -1,10 +1,7 @@
 // eslint-disable-next-line import/no-extraneous-dependencies
 import axios from 'axios';
 // eslint-disable-next-line import/no-extraneous-dependencies
-import MockAdapter from 'axios-mock-adapter';
 import { APP_BACKEND_API, LOCAL_STORAGE_TOKEN } from './consts/appConsts';
-import { usersMock } from '../domain/mock/usersMock';
-import { commentsMock } from '../domain/mock/commentsMock';
 
 export const axiosWithAuthorization = axios.create({
   baseURL: APP_BACKEND_API,
@@ -34,17 +31,3 @@ export const axiosWithoutAuthorization = axios.create({
     Accept: 'application/json',
   },
 });
-
-const mockAuth = new MockAdapter(axiosWithAuthorization, {
-  delayResponse: 500,
-});
-
-const mockUnauth = new MockAdapter(axiosWithoutAuthorization, {
-  delayResponse: 500,
-});
-
-usersMock(mockAuth);
-usersMock(mockUnauth);
-
-commentsMock(mockAuth);
-commentsMock(mockUnauth);
