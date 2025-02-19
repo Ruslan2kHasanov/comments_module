@@ -70,4 +70,4 @@ const CreateCommentForm: React.FC = () => {
   );
 };
 
-export default CreateCommentForm;
+export default React.memo(CreateCommentForm);
