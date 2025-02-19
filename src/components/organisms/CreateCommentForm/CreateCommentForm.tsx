@@ -37,7 +37,7 @@ const CreateCommentForm: React.FC = () => {
   });
 
   const onSubmitForm = () => formik.handleSubmit();
-  const onResetForm = () => () => formik.resetForm();
+  const onResetForm = () => formik.resetForm();
 
   return (
     <div className="create_comment_wrapper">
