@@ -61,7 +61,32 @@ export const commentsApi = createApi({
         method: 'POST',
         data: { vote },
       }),
-      invalidatesTags: ['comments', 'comments_changed'],
+      async onQueryStarted({ id, vote }, { dispatch, queryFulfilled }) {
+        const patchResultComments = dispatch(
+          commentsApi.util.updateQueryData('getAllComments', undefined, (draft) => {
+            const comment = draft.find((el) => el.id === id);
+            if (comment) {
+              comment.rating += vote;
+            }
+          }),
+        );
+        const patchResultChanged = dispatch(
+          commentsApi.util.updateQueryData('getChangedComments', undefined, (draft) => {
+            const changed = draft.find((el) => +el.id_comment === +id);
+            if (changed) {
+              changed.rating_val = -changed.rating_val as 1 | -1;
+            }
+          }),
+        );
+
+        try {
+          await queryFulfilled;
+        } catch {
+          patchResultComments.undo();
+          patchResultChanged.undo();
+        }
+      },
+      invalidatesTags: ['comments_changed'],
     }),
   }),
 });

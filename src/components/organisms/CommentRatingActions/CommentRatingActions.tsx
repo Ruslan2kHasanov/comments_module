@@ -13,7 +13,7 @@ interface CommentRatingActionsProps {
 
 const CommentRatingActions: React.FC<CommentRatingActionsProps> = ({ comment, changedRatingByUser }) => {
   const { data: me } = useGetMeQuery();
-  const [updateCommentRating] = useUpdateCommentRatingMutation();
+  const [updateCommentRating, updateCommentRatingStatus] = useUpdateCommentRatingMutation();
   let ratingValColor = '';
 
   const onClickUpdateRating = (voteVal: -1 | 1) => updateCommentRating({ id: comment.id, vote: voteVal });
@@ -25,7 +25,7 @@ const CommentRatingActions: React.FC<CommentRatingActionsProps> = ({ comment, ch
   return (
     <div className="comment_rating">
       <Button
-        disabled={!me?.id || changedRatingByUser === 1}
+        disabled={!me?.id || changedRatingByUser === 1 || updateCommentRatingStatus.isLoading}
         title="Поднять рейтинг"
         icon={<CaretUpOutlined />}
         type="link"
@@ -33,7 +33,7 @@ const CommentRatingActions: React.FC<CommentRatingActionsProps> = ({ comment, ch
       />
       <span className={`comment_rating__val ${ratingValColor}`}>{comment.rating}</span>
       <Button
-        disabled={!me?.id || changedRatingByUser === -1}
+        disabled={!me?.id || changedRatingByUser === -1 || updateCommentRatingStatus.isLoading}
         title="Опустить рейтинг"
         icon={<CaretDownOutlined />}
         type="link"
